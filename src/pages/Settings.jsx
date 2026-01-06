@@ -171,21 +171,19 @@ export default function Settings() {
                 </div>
               </div>
 
-              {generalSettings.cleanup_old_artifacts && (
-                <div className="space-y-2">
-                  <Label>Artifact Retention (Days)</Label>
-                  <Input
-                    type="number"
-                    value={generalSettings.artifact_retention_days}
-                    onChange={(e) => setGeneralSettings({
-                      ...generalSettings,
-                      artifact_retention_days: parseInt(e.target.value)
-                    })}
-                    min={1}
-                    max={365}
-                  />
-                </div>
-              )}
+              <div className="space-y-2">
+                <Label>Artifact Retention (Days)</Label>
+                <Input
+                  type="number"
+                  value={generalSettings.artifact_retention_days}
+                  onChange={(e) => setGeneralSettings({
+                    ...generalSettings,
+                    artifact_retention_days: parseInt(e.target.value)
+                  })}
+                  min={1}
+                  max={365}
+                />
+              </div>
             </div>
           </div>
 
