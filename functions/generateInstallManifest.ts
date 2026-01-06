@@ -23,20 +23,23 @@ Deno.serve(async (req) => {
         }
 
         // Generate iOS OTA installation manifest
+        // Use production domain for IPA hosting
+        const ipaUrl = `https://install.fredsnwdocprep.org/ios/AutoInsightIO-${build.version}.ipa`;
+        
         const manifest = {
             items: [
                 {
                     assets: [
                         {
                             kind: 'software-package',
-                            url: build.ipa_url
+                            url: ipaUrl
                         }
                     ],
                     metadata: {
-                        'bundle-identifier': build.bundle_id,
-                        'bundle-version': build.version,
+                        'bundle-identifier': 'com.fred.autoinsight',
+                        'bundle-version': build.version || '1.11.0',
                         'kind': 'software',
-                        'title': build.project_name || 'App'
+                        'title': 'AutoInsight IO'
                     }
                 }
             ]
@@ -56,19 +59,19 @@ Deno.serve(async (req) => {
                     <key>kind</key>
                     <string>software-package</string>
                     <key>url</key>
-                    <string>${build.ipa_url}</string>
+                    <string>${ipaUrl}</string>
                 </dict>
             </array>
             <key>metadata</key>
             <dict>
                 <key>bundle-identifier</key>
-                <string>${build.bundle_id}</string>
+                <string>com.fred.autoinsight</string>
                 <key>bundle-version</key>
-                <string>${build.version}</string>
+                <string>${build.version || '1.11.0'}</string>
                 <key>kind</key>
                 <string>software</string>
                 <key>title</key>
-                <string>${build.project_name || 'App'}</string>
+                <string>AutoInsight IO</string>
             </dict>
         </dict>
     </array>
