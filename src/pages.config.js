@@ -8,6 +8,7 @@ import Overview from './pages/Overview';
 import Projects from './pages/Projects';
 import Runners from './pages/Runners';
 import Settings from './pages/Settings';
+import InstallApp from './pages/InstallApp';
 import __Layout from './Layout.jsx';
 
 
@@ -22,6 +23,7 @@ export const PAGES = {
     "Projects": Projects,
     "Runners": Runners,
     "Settings": Settings,
+    "InstallApp": InstallApp,
 }
 
 export const pagesConfig = {

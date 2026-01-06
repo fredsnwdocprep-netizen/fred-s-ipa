@@ -128,12 +128,20 @@ export default function BuildDetail() {
             </Link>
           )}
           {build.ipa_url && (
-            <a href={build.ipa_url} target="_blank" rel="noopener noreferrer">
-              <Button className="gap-2 bg-emerald-600 hover:bg-emerald-700">
-                <Download className="w-4 h-4" />
-                Download IPA
-              </Button>
-            </a>
+            <>
+              <Link to={createPageUrl('InstallApp') + `?id=${build.id}`}>
+                <Button variant="outline" className="gap-2">
+                  <ExternalLink className="w-4 h-4" />
+                  Install on Device
+                </Button>
+              </Link>
+              <a href={build.ipa_url} target="_blank" rel="noopener noreferrer">
+                <Button className="gap-2 bg-emerald-600 hover:bg-emerald-700">
+                  <Download className="w-4 h-4" />
+                  Download IPA
+                </Button>
+              </a>
+            </>
           )}
         </div>
       </div>
