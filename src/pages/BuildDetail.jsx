@@ -45,6 +45,13 @@ export default function BuildDetail() {
       return builds[0];
     },
     enabled: !!buildId,
+    refetchInterval: (data) => {
+      // Poll every 3 seconds if build is in progress
+      if (data?.status === 'queued' || data?.status === 'running') {
+        return 3000;
+      }
+      return false;
+    },
   });
 
   const formatDuration = (seconds) => {
@@ -55,14 +62,14 @@ export default function BuildDetail() {
     return `${mins}m ${secs}s`;
   };
 
-  // Simulated build phases for the timeline
-  const buildPhases = [
-    { id: 'queue', label: 'Queued', status: 'completed' },
-    { id: 'checkout', label: 'Source Checkout', status: build?.status === 'queued' ? 'pending' : 'completed' },
-    { id: 'resolve', label: 'Resolve Dependencies', status: build?.status === 'queued' ? 'pending' : build?.status === 'running' ? 'running' : 'completed' },
-    { id: 'archive', label: 'Archive', status: ['queued', 'running'].includes(build?.status) ? 'pending' : build?.status === 'failed' && build?.error_summary?.includes('archive') ? 'failed' : 'completed' },
-    { id: 'sign', label: 'Code Sign', status: ['queued', 'running'].includes(build?.status) ? 'pending' : build?.status === 'failed' && build?.error_summary?.includes('sign') ? 'failed' : 'completed' },
-    { id: 'export', label: 'Export IPA', status: build?.status === 'success' ? 'completed' : build?.status === 'failed' ? 'failed' : 'pending' },
+  // Use real-time stages from backend, with fallback
+  const buildPhases = build?.stages || [
+    { name: 'queued', label: 'Queued', status: 'completed' },
+    { name: 'checkout', label: 'Source Checkout', status: 'pending' },
+    { name: 'dependencies', label: 'Resolve Dependencies', status: 'pending' },
+    { name: 'archive', label: 'Archive', status: 'pending' },
+    { name: 'codesign', label: 'Code Sign', status: 'pending' },
+    { name: 'export', label: 'Export IPA', status: 'pending' }
   ];
 
   if (isLoading) {
@@ -147,7 +154,7 @@ export default function BuildDetail() {
             <h2 className="text-lg font-semibold text-slate-900 mb-4">Execution Timeline</h2>
             <div className="flex items-center justify-between">
               {buildPhases.map((phase, index) => (
-                <React.Fragment key={phase.id}>
+                <React.Fragment key={phase.name}>
                   <div className="flex flex-col items-center">
                     <div className={cn(
                       "w-10 h-10 rounded-full flex items-center justify-center",
