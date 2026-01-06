@@ -36,8 +36,8 @@ export default function InstallApp() {
   };
 
   const getInstallUrl = () => {
-    const apiBase = window.location.origin.replace('ipa.', 'api.ipa.');
-    const manifestUrl = `${apiBase}/generateInstallManifest?build_id=${buildId}`;
+    // Static manifest hosted on custom domain
+    const manifestUrl = `https://fredsnwdocprep.org/ios/manifest.plist`;
     return `itms-services://?action=download-manifest&url=${encodeURIComponent(manifestUrl)}`;
   };
 
@@ -110,15 +110,15 @@ export default function InstallApp() {
           <dl className="space-y-2 text-sm">
             <div className="flex justify-between">
               <dt className="text-slate-500">Bundle ID</dt>
-              <dd className="font-mono text-slate-900 text-xs">{build.bundle_id}</dd>
+              <dd className="font-mono text-slate-900 text-xs">com.fred.autoinsight</dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-slate-500">Export Method</dt>
-              <dd className="font-medium text-slate-900">{build.export_method}</dd>
+              <dt className="text-slate-500">Version</dt>
+              <dd className="font-medium text-slate-900">1.11.0</dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-slate-500">Branch</dt>
-              <dd className="font-medium text-slate-900">{build.branch || 'main'}</dd>
+              <dt className="text-slate-500">Hosted At</dt>
+              <dd className="font-medium text-slate-900">fredsnwdocprep.org</dd>
             </div>
           </dl>
         </div>
