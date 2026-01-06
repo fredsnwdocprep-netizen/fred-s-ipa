@@ -36,8 +36,8 @@ export default function InstallApp() {
   };
 
   const getInstallUrl = () => {
-    // Static manifest hosted on custom domain
-    const manifestUrl = `https://fredsnwdocprep.org/ios/manifest.plist`;
+    // Production OTA install via custom domain
+    const manifestUrl = `https://install.fredsnwdocprep.org/ios/manifest.plist`;
     return `itms-services://?action=download-manifest&url=${encodeURIComponent(manifestUrl)}`;
   };
 
@@ -118,7 +118,7 @@ export default function InstallApp() {
             </div>
             <div className="flex justify-between">
               <dt className="text-slate-500">Hosted At</dt>
-              <dd className="font-medium text-slate-900">fredsnwdocprep.org</dd>
+              <dd className="font-medium text-slate-900">install.fredsnwdocprep.org</dd>
             </div>
           </dl>
         </div>
