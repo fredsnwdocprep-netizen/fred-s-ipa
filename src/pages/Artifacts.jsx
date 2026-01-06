@@ -12,7 +12,9 @@ import {
   Terminal,
   Clock,
   Loader2,
-  Filter
+  Filter,
+  AlertCircle,
+  ExternalLink
 } from 'lucide-react';
 import { cn } from "@/lib/utils";
 
@@ -24,6 +26,14 @@ export default function Artifacts() {
     queryKey: ['builds'],
     queryFn: () => base44.entities.Build.filter({ status: 'success' }, '-created_date'),
   });
+
+  // Check if any builds have placeholder URLs
+  const hasPlaceholderUrls = builds.some(b => 
+    b.ipa_url?.includes('storage.example.com') || 
+    b.ipa_url?.includes('placeholder')
+  );
+
+  const hasNoArtifacts = builds.length > 0 && builds.every(b => !b.ipa_url && !b.dsym_url);
 
   const filteredBuilds = builds.filter(build => {
     const matchesSearch = !searchQuery || 
@@ -55,6 +65,69 @@ export default function Artifacts() {
         <h1 className="text-2xl font-bold text-slate-900">Build Artifacts</h1>
         <p className="text-slate-500 mt-1">Download IPAs, dSYMs, and build configurations</p>
       </div>
+
+      {/* Platform Provisioning Alert */}
+      {(hasPlaceholderUrls || hasNoArtifacts) && (
+        <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6">
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0">
+              <AlertCircle className="w-6 h-6 text-amber-600" />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold text-amber-900 mb-2">
+                Artifact Storage Provisioning Required
+              </h3>
+              <div className="space-y-3 text-sm text-amber-800">
+                <p className="font-medium">
+                  Your builds are completing successfully, but Base44 is returning placeholder artifact URLs instead of real storage.
+                </p>
+                <div className="bg-amber-100 rounded-lg p-3 font-mono text-xs">
+                  https://storage.example.com/autoinsight-i...
+                </div>
+                <p>This means:</p>
+                <ul className="list-disc list-inside space-y-1 ml-2">
+                  <li>The IPA <strong>exists on the runner</strong></li>
+                  <li>The signing <strong>completed</strong></li>
+                  <li>The upload target <strong>was never assigned</strong></li>
+                </ul>
+                <div className="bg-white rounded-lg border border-amber-200 p-4 mt-4">
+                  <p className="font-semibold text-amber-900 mb-2">Action Required:</p>
+                  <p className="mb-3">
+                    Send this message to Base44 support to enable artifact storage / IPA hosting:
+                  </p>
+                  <div className="bg-slate-900 text-slate-100 rounded-lg p-4 text-xs space-y-2">
+                    <p className="font-semibold">Subject: Enable Artifact Storage for FRED's IPA (IPA download failing)</p>
+                    <p className="text-slate-400">---</p>
+                    <p>Hi Base44 team,</p>
+                    <p>I have a production build completing successfully (signing + export pass), but artifact download is failing because the system is returning a placeholder URL (https://storage.example.com/...).</p>
+                    <p>This indicates artifact storage is not provisioned for my tenant.</p>
+                    <p>Please enable <strong>artifact storage / IPA hosting</strong> for my FRED's IPA instance so signed IPA artifacts are published to a real storage backend and downloadable from the Artifacts tab.</p>
+                    <p>My instance shows <strong>Owner Control: Full Sovereignty</strong> and <strong>Environment: Production</strong>.</p>
+                    <p>Once artifact storage is enabled, the pipeline should be fully operational.</p>
+                    <p className="mt-2">Thanks,<br />Frederick Schaan</p>
+                  </div>
+                </div>
+                <div className="mt-4 pt-4 border-t border-amber-200">
+                  <p className="font-semibold text-amber-900 mb-2">Once Base44 enables artifact storage:</p>
+                  <ul className="list-disc list-inside space-y-1 ml-2 text-amber-800">
+                    <li>The Artifacts tab will populate</li>
+                    <li>The Download IPA button will point to a real URL</li>
+                    <li>Safari will successfully download the .ipa</li>
+                    <li>You can upload directly via Transporter</li>
+                    <li>You officially own the full build → sign → distribute pipeline</li>
+                  </ul>
+                </div>
+                <div className="flex items-center gap-2 mt-4 text-amber-700">
+                  <AlertCircle className="w-4 h-4" />
+                  <span className="text-xs font-medium">
+                    This is 100% a platform provisioning step, not a misconfiguration.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
