@@ -1,0 +1,37 @@
+{
+  "name": "Project",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Project name"
+    },
+    "repo_url": {
+      "type": "string",
+      "description": "GitHub repository URL"
+    },
+    "default_scheme": {
+      "type": "string",
+      "description": "Default Xcode scheme"
+    },
+    "default_bundle_id": {
+      "type": "string",
+      "description": "Default bundle identifier"
+    },
+    "team_id": {
+      "type": "string",
+      "description": "Apple Team ID"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "archived"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "name": "SigningCertificate",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Display name"
+    },
+    "team_id": {
+      "type": "string",
+      "description": "Apple Team ID"
+    },
+    "common_name": {
+      "type": "string",
+      "description": "Certificate common name"
+    },
+    "fingerprint_sha1": {
+      "type": "string",
+      "description": "SHA1 fingerprint"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "disabled",
+        "expired",
+        "revoked"
+      ],
+      "default": "active"
+    },
+    "certificate_type": {
+      "type": "string",
+      "enum": [
+        "development",
+        "distribution"
+      ],
+      "default": "distribution"
+    },
+    "p12_uploaded": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether P12 file is stored"
+    },
+    "encrypted_p12_uri": {
+      "type": "string",
+      "description": "Private storage URI for encrypted P12"
+    }
+  },
+  "required": [
+    "name",
+    "team_id"
+  ]
+}

@@ -1,0 +1,159 @@
+{
+  "name": "Build",
+  "type": "object",
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "description": "Reference to Project"
+    },
+    "project_name": {
+      "type": "string",
+      "description": "Project name snapshot"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "running",
+        "success",
+        "failed",
+        "cancelled"
+      ],
+      "default": "queued"
+    },
+    "current_stage": {
+      "type": "string",
+      "description": "Current execution stage"
+    },
+    "stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "running",
+              "completed",
+              "failed"
+            ]
+          },
+          "started_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "completed_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "description": "Build execution stages with real-time status"
+    },
+    "branch": {
+      "type": "string",
+      "description": "Git branch or tag"
+    },
+    "commit_sha": {
+      "type": "string",
+      "description": "Git commit SHA"
+    },
+    "version": {
+      "type": "string",
+      "description": "Marketing version (semver)"
+    },
+    "build_number": {
+      "type": "string",
+      "description": "Internal build number"
+    },
+    "bundle_id": {
+      "type": "string",
+      "description": "Bundle identifier used"
+    },
+    "scheme": {
+      "type": "string",
+      "description": "Xcode scheme"
+    },
+    "configuration": {
+      "type": "string",
+      "enum": [
+        "Debug",
+        "Release"
+      ],
+      "default": "Release"
+    },
+    "export_method": {
+      "type": "string",
+      "enum": [
+        "development",
+        "ad-hoc",
+        "app-store"
+      ],
+      "default": "ad-hoc"
+    },
+    "xcode_version": {
+      "type": "string",
+      "description": "Xcode version used"
+    },
+    "runner_id": {
+      "type": "string",
+      "description": "Runner/node that executed build"
+    },
+    "runner_name": {
+      "type": "string",
+      "description": "Runner display name"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "duration_seconds": {
+      "type": "number"
+    },
+    "ipa_url": {
+      "type": "string",
+      "description": "Signed IPA download URL"
+    },
+    "dsym_url": {
+      "type": "string",
+      "description": "dSYM.zip download URL"
+    },
+    "export_options_url": {
+      "type": "string",
+      "description": "exportOptions.plist URL"
+    },
+    "logs_url": {
+      "type": "string",
+      "description": "Full build logs URL"
+    },
+    "error_summary": {
+      "type": "string",
+      "description": "Error headline if failed"
+    },
+    "error_command": {
+      "type": "string",
+      "description": "Exact failing command"
+    },
+    "signing_certificate_id": {
+      "type": "string"
+    },
+    "provisioning_profile_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "project_id",
+    "status"
+  ]
+}

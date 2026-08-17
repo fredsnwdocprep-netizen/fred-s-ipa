@@ -1,0 +1,57 @@
+{
+  "name": "Runner",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Runner display name"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "github-actions",
+        "macstadium",
+        "self-hosted"
+      ],
+      "default": "github-actions"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "online",
+        "offline",
+        "busy"
+      ],
+      "default": "offline"
+    },
+    "xcode_versions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Available Xcode versions"
+    },
+    "macos_version": {
+      "type": "string"
+    },
+    "last_heartbeat": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "current_build_id": {
+      "type": "string",
+      "description": "Currently executing build"
+    },
+    "total_builds": {
+      "type": "number",
+      "default": 0
+    },
+    "avg_build_time_seconds": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "name",
+    "type"
+  ]
+}
